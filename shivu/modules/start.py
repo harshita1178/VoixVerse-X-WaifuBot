@@ -1,11 +1,10 @@
-
 import random
 from html import escape 
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 
-from shivu import application, SUPPORT_CHAT, UPDATE_CHAT, db, GROUP_ID
+from shivu import application, SUPPORT_CHAT, UPDATE_CHAT, BOT_USERNAME, db, GROUP_ID
 
 collection = db['total_pm_users']
 
@@ -72,7 +71,8 @@ async def button(update: Update, context: CallbackContext) -> None:
         help_keyboard = [[InlineKeyboardButton("⤂ʙᴀᴄᴋ", callback_data='back')]]
         reply_markup = InlineKeyboardMarkup(help_keyboard)
 
-        await context.bot.edit_message_caption(chat_id=query.message.chat_id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
+        await context.bot.edit_message_caption(chat_id=update.effective_chat.id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
 
-    elif query.data == 'back':
-        # "Back" button click hone par start message wapas bhej do
+application.add_handler(CallbackQueryHandler(button, pattern='^help$', block=False))
+start_handler = CommandHandler('start', start, block=False)
+application.add_handler(start_handler)
