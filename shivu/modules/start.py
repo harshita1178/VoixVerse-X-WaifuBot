@@ -1,4 +1,3 @@
-#@flexdub_official
 import random
 from html import escape 
 
@@ -17,61 +16,36 @@ async def start(update: Update, context: CallbackContext) -> None:
     user_data = await collection.find_one({"_id": user_id})
 
     if user_data is None:
-
         await collection.insert_one({"_id": user_id, "first_name": first_name, "username": username})
-
         await context.bot.send_message(chat_id=GROUP_ID, text=f"<a href='tg://user?id={user_id}'>{first_name}</a> STARTED THE BOT", parse_mode='HTML')
     else:
-
         if user_data['first_name'] != first_name or user_data['username'] != username:
-
             await collection.update_one({"_id": user_id}, {"$set": {"first_name": first_name, "username": username}})
 
-
-
-    if update.effective_chat.type== "private":
-
-
+    if update.effective_chat.type == "private":
         caption = f"""
-     ***ʜᴇʟʟᴏ....💫  {escape(first_name)}
-
-
-
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━⧫   
-      ✾ Wᴇʟᴄᴏᴍɪɴɢ ʏᴏᴜ ᴛᴏ ᴛʜᴇ 🍃,ᴡᴀɪғᴜ ᴄʜᴀɴ ʙᴏᴛ🫧 
-    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━⧫
-    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━⧫
-    ┠ ➻  I ᴡɪʟʟ Hᴇʟᴘ Yᴏᴜ Fɪɴᴅ Yᴏᴜʀ Waifu Hᴜsʙᴀɴᴅᴏ
-    ┃        ɪɴ Yᴏᴜʀ Gʀᴏᴜᴘ Cʜᴀᴛ. 
-    ┠ ➻  Yᴏᴜ ᴄᴀɴ sᴇᴀʟ ᴛʜᴇᴍ ʙʏ /waifu ᴄᴏᴍᴍᴀɴᴅ 
-    ┃         ᴀɴᴅ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ʜᴀʀᴇᴍ.
-    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━⧫
-      Tᴀᴘ ᴏɴ "Hᴇʟᴘ" ғᴏʀ ᴍᴏʀᴇ ᴄᴏᴍᴍᴀɴᴅs.***"""
-
+╔═══════════════════════════════╗
+   ✾ Wᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ 🍃, MADARA X WAIFU ʙᴏᴛ🫧 
+╚═══════════════════════════════╝
+╔═══════════════════════════════╗
+║ ➻  I ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ғɪɴᴅ ʏᴏᴜʀ Waifu Hᴜsʙᴀɴᴅᴏ 
+║      ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ. 
+║ ➻  Yᴏᴜ ᴄᴀɴ sᴇᴀʟ ᴛʜɪs ʙʏ ᴜsɪɴɢ /waifu ᴄᴏᴍᴍᴀɴᴅ 
+║      ᴀɴᴅ ᴀdd ʏᴏᴜʀ ʜᴀʀᴇᴍ. 
+╚═══════════════════════════════╝
+       "Tᴀᴘ 'Hᴇʟᴘ' ғᴏʀ ᴀ ʟɪsᴛ ᴏғ ᴀʟʟ ᴄᴏᴍᴍᴀɴds."
+"""
         keyboard = [
-            [InlineKeyboardButton("✤ ᴀᴅᴅ ᴍᴇ ✤", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
+            [InlineKeyboardButton("✤ ᴀᴅᴅ ᴍᴇ ✤", url=f'http://t.me/Madara_X_Waifus_Bot?startgroup=new')],
             [InlineKeyboardButton("☊ 𝗌ᴜᴘᴘᴏʀᴛ ☊", url=f'https://t.me/{SUPPORT_CHAT}'),
-            InlineKeyboardButton("✠ ᴜᴘᴅᴀᴛᴇ𝗌 ✠", url=f'https://t.me/{UPDATE_CHAT}')],
-            [InlineKeyboardButton("✇ ʜᴇʟᴘ ✇", callback_data='help')],[InlineKeyboardButton("≎ ᴄʀᴇᴅɪᴛ ≎", url=f'https://t.me/{UPDATE_CHAT}')],
+             InlineKeyboardButton("✠ ᴜᴘᴅᴀᴛᴇ𝗦 ✠", url=f'https://t.me/{UPDATE_CHAT}')],
+            [InlineKeyboardButton("✇ ʜᴇʟᴘ ✇", callback_data='help')],
+            [InlineKeyboardButton("≎ ᴄʀᴇᴅɪᴛ ≎", url=f'https://t.me/{UPDATE_CHAT}')],
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         photo_url = random.choice(PHOTO_URL)
 
         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=caption, reply_markup=reply_markup, parse_mode='markdown')
-
-    else:
-        photo_url = random.choice(PHOTO_URL)
-        keyboard = [
-
-            [InlineKeyboardButton("✇ ʜᴇʟᴘ ✇", callback_data='help'),
-             InlineKeyboardButton("☊ 𝗌ᴜᴘᴘᴏʀᴛ ☊", url=f'https://t.me/{SUPPORT_CHAT}')],
-
-        ]
-
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=f"""
-{update.effective_user.first_name}                                                                                               """
-                                     ,reply_markup=reply_markup )
 
 async def button(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
@@ -94,34 +68,6 @@ async def button(update: Update, context: CallbackContext) -> None:
 
         await context.bot.edit_message_caption(chat_id=update.effective_chat.id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
 
-    elif query.data == 'back':
-
-        caption = f"""
-     ***ʜᴇʟʟᴏ....💫  {escape(first_name)}
-
-
-
-ᴡʜᴏ ᴀᴍ ɪ - ɪ'ᴍ*** [˹𝐘ᴏᴜʀ 𝐖ᴀɪғᴜ 𝐁ᴏᴛ˼](https://t.me/notyourtypeGod)
-
-***◈ ━━━━━━━━ ● ━━━━━━━━ ◈
-
-ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ...✨️ ᴀɴᴅ ɪ ᴡɪʟʟ sᴇɴᴅ ʀᴀɴᴅᴏᴍ ᴄʜᴀʀᴀᴄᴛᴇʀs ᴀғᴛᴇʀ.. ᴇᴠᴇʀʏ 𝟷𝟶𝟶 ᴍᴇssᴀɢᴇs ɪɴ ɢʀᴏᴜᴘ.
-
-──────────────────
-✧⁠ COMMAND - ᴜsᴇ /ɢᴜᴇss  ᴛᴏ ᴄᴏʟʟᴇᴄᴛ ᴛʜᴀᴛ ᴄʜᴀʀᴀᴄᴛᴇʀs ɪɴ ʏᴏᴜʀ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ᴀɴᴅ sᴇᴇ ᴄᴏʟʟᴇᴄᴛɪᴏɴ ʙʏ ᴜsɪɴɢ /ʜᴀʀᴇᴍ ... sᴏ ᴀᴅᴅ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴄᴏʟʟᴇᴄᴛ ʏᴏᴜʀ ʜᴀʀᴇᴍ...✨️
-
-◈ ━━━━━━━━ ● ━━━━━━━━ ◈***"""
-
-        keyboard = [
-           [InlineKeyboardButton("✤ ᴀᴅᴅ ᴍᴇ ✤", url=f'http://t.me/{BOT_USERNAME}?startgroup=new')],
-            [InlineKeyboardButton("☊ 𝗌ᴜᴘᴘᴏʀᴛ ☊", url=f'https://t.me/{SUPPORT_CHAT}'),
-            InlineKeyboardButton("✠ ᴜᴘᴅᴀᴛᴇ𝗌 ✠", url=f'https://t.me/{UPDATE_CHAT}')],
-            [InlineKeyboardButton("✇ ʜᴇʟᴘ ✇", callback_data='help')],[InlineKeyboardButton("≎ ᴄʀᴇᴅɪᴛ ≎", url=f'https://t.me/{UPDATE_CHAT}')],
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-
-        await context.bot.edit_message_caption(chat_id=update.effective_chat.id, message_id=query.message.message_id, caption=caption, reply_markup=reply_markup, parse_mode='markdown')
-
-application.add_handler(CallbackQueryHandler(button, pattern='^help$|^back$', block=False))
+application.add_handler(CallbackQueryHandler(button, pattern='^help$', block=False))
 start_handler = CommandHandler('start', start, block=False)
 application.add_handler(start_handler)
