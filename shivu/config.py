@@ -8,7 +8,7 @@ class Config(object):
     # Bot Credentials
     GROUP_ID = -1002499806698
     TOKEN = "8136650512:AAFC8c8225hPO_q2AFKtZtADMjCRryF1ZJU"
-    mongo_url = "mongodb+srv://Naruto777:hinata654@naruto77.e14xiqc.mongodb.net/?retryWrites=true&w=majority&appName=Naruto77"
+    mongo_url = "mongodb+srv://Naruto777:hinata654@naruto77.e14xiqc.mongodb.net/?retryWrites=true&w=majority"
 
     # Bot Settings
     PHOTO_URL = [
@@ -17,7 +17,7 @@ class Config(object):
     ]
     SUPPORT_CHAT = "Anime_Circle_Club"
     UPDATE_CHAT = "Waifu_Chan_Bot_updates"
-    BOT_USERNAME = "@Madara_X_Waifus_Bot"
+    BOT_USERNAME = "@Waifu_Chan_Robot"
     CHARA_CHANNEL_ID = -1002646820042  # Channel ID should be an integer
 
     # API Credentials
