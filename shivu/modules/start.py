@@ -24,16 +24,16 @@ async def start(update: Update, context: CallbackContext) -> None:
 
     if update.effective_chat.type == "private":
         caption = f"""
-╔═══════════════════════════════╗
-   ✾ Wᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ 🍃, MADARA X WAIFU ʙᴏᴛ🫧 
-╚═══════════════════════════════╝
+  ╔═══════════════════════════════╗
+✾ Wᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ 🍃, MADARA X WAIFU ʙᴏᴛ🫧 
+  ╚═══════════════════════════════╝
 ╔═══════════════════════════════╗
 ║ ➻  I ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ғɪɴᴅ ʏᴏᴜʀ Waifu Hᴜsʙᴀɴᴅᴏ 
 ║      ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ. 
 ║ ➻  Yᴏᴜ ᴄᴀɴ sᴇᴀʟ ᴛʜɪs ʙʏ ᴜsɪɴɢ /waifu ᴄᴏᴍᴍᴀɴᴅ 
 ║      ᴀɴᴅ ᴀdd ʏᴏᴜʀ ʜᴀʀᴇᴍ. 
 ╚═══════════════════════════════╝
-       "Tᴀᴘ 'Hᴇʟᴘ' ғᴏʀ ᴀ ʟɪsᴛ ᴏғ ᴀʟʟ ᴄᴏᴍᴍᴀɴds."
+  "Tᴀᴘ 'Hᴇʟᴘ' ғᴏʀ ᴀ ʟɪsᴛ ᴏғ ᴀʟʟ ᴄᴏᴍᴍᴀɴds."
 """
         keyboard = [
             [InlineKeyboardButton("✤ ᴀᴅᴅ ᴍᴇ ✤", url=f'http://t.me/Madara_X_Waifus_Bot?startgroup=new')],
