@@ -1,12 +1,18 @@
+
 import random
 from html import escape 
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 
-from shivu import application, PHOTO_URL, SUPPORT_CHAT, UPDATE_CHAT, BOT_USERNAME, db, GROUP_ID
+from shivu import application, SUPPORT_CHAT, UPDATE_CHAT, db, GROUP_ID
 
 collection = db['total_pm_users']
+
+PHOTO_URL = [
+    "https://graph.org/file/f41fb95c96b068e55cdd2-1e00669b0b8458dc5f.jpg",
+    "https://graph.org/file/3b8e66af1a005897f1ada-e290ec29df788f01cf.jpg"
+]
 
 async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.effective_user.id
@@ -66,8 +72,7 @@ async def button(update: Update, context: CallbackContext) -> None:
         help_keyboard = [[InlineKeyboardButton("⤂ʙᴀᴄᴋ", callback_data='back')]]
         reply_markup = InlineKeyboardMarkup(help_keyboard)
 
-        await context.bot.edit_message_caption(chat_id=update.effective_chat.id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
+        await context.bot.edit_message_caption(chat_id=query.message.chat_id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
 
-application.add_handler(CallbackQueryHandler(button, pattern='^help$', block=False))
-start_handler = CommandHandler('start', start, block=False)
-application.add_handler(start_handler)
+    elif query.data == 'back':
+        # "Back" button click hone par start message wapas bhej do
