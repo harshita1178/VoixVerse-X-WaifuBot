@@ -1,19 +1,19 @@
-import random
-from html import escape 
+import time
+import datetime
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import CallbackContext
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
+# Bot start hone ka time store karna
+BOT_START_TIME = time.time()
 
-from shivu import application, SUPPORT_CHAT, UPDATE_CHAT, BOT_USERNAME, db, GROUP_ID
-
-collection = db['total_pm_users']
-
-PHOTO_URL = [
-    "https://graph.org/file/f41fb95c96b068e55cdd2-1e00669b0b8458dc5f.jpg",
-    "https://graph.org/file/3b8e66af1a005897f1ada-e290ec29df788f01cf.jpg"
-]
+# Function to calculate uptime
+def get_uptime():
+    seconds = int(time.time() - BOT_START_TIME)
+    return str(datetime.timedelta(seconds=seconds))
 
 async def start(update: Update, context: CallbackContext) -> None:
+    start_time = time.time()  # Ping calculation ke liye
+
     user_id = update.effective_user.id
     first_name = update.effective_user.first_name
     username = update.effective_user.username
@@ -27,19 +27,25 @@ async def start(update: Update, context: CallbackContext) -> None:
         if user_data['first_name'] != first_name or user_data['username'] != username:
             await collection.update_one({"_id": user_id}, {"$set": {"first_name": first_name, "username": username}})
 
+    # ✅ Private Chat Response (With Buttons & Image)
     if update.effective_chat.type == "private":
-        caption = f"""
-  ╔═══════════════════════════════╗
-✾ Wᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ 🍃, MADARA X WAIFU ʙᴏᴛ🫧 
-  ╚═══════════════════════════════╝
-╔═══════════════════════════════╗
-║ ➻  I ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ғɪɴᴅ ʏᴏᴜʀ Waifu Hᴜsʙᴀɴᴅᴏ 
-║      ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ. 
-║ ➻  Yᴏᴜ ᴄᴀɴ sᴇᴀʟ ᴛʜɪs ʙʏ ᴜsɪɴɢ /waifu ᴄᴏᴍᴍᴀɴᴅ 
-║      ᴀɴᴅ ᴀdd ʏᴏᴜʀ ʜᴀʀᴇᴍ. 
-╚═══════════════════════════════╝
-  "Tᴀᴘ 'Hᴇʟᴘ' ғᴏʀ ᴀ ʟɪsᴛ ᴏғ ᴀʟʟ ᴄᴏᴍᴍᴀɴds."
+        ping_time = round((time.time() - start_time) * 1000, 3)  # Ping in ms
+
+        caption = f""" 
+🍃 ɢʀᴇᴇᴛɪɴɢs, ɪ'ᴍ ˹ᴡᴀɪғᴜ ɢꝛᴀʙʙᴇʀ ʙᴏᴛ˼ 🫧, ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ!  
+━━━━━━━▧▣▧━━━━━━━  
+⦾ ᴡʜᴀᴛ ɪ ᴅᴏ: ɪ sᴘᴀᴡɴ   
+     ᴡᴀɪғᴜs ɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ ғᴏʀ  
+     ᴜsᴇʀs ᴛᴏ ɢʀᴀʙ.  
+⦾ ᴛᴏ ᴜsᴇ ᴍᴇ: ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ  
+     ɢʀᴏᴜᴘ ᴀɴᴅ ᴛᴀᴘ ᴛʜᴇ ʜᴇʟᴘ  
+     ʙᴜᴛᴛᴏɴ ғᴏʀ ᴅᴇᴛᴀɪʟs.  
+━━━━━━━▧▣▧━━━━━━━  
+
+➜ ᴘɪɴɢ: {ping_time} ᴍs  
+➜ ᴜᴘᴛɪᴍᴇ: {get_uptime()}  
 """
+
         keyboard = [
             [InlineKeyboardButton("✤ ᴀᴅᴅ ᴍᴇ ✤", url=f'http://t.me/Madara_X_Waifus_Bot?startgroup=new')],
             [InlineKeyboardButton("☊ 𝗌ᴜᴘᴘᴏʀᴛ ☊", url=f'https://t.me/{SUPPORT_CHAT}'),
@@ -52,27 +58,11 @@ async def start(update: Update, context: CallbackContext) -> None:
 
         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo_url, caption=caption, reply_markup=reply_markup, parse_mode='markdown')
 
-async def button(update: Update, context: CallbackContext) -> None:
-    query = update.callback_query
-    await query.answer()
-
-    if query.data == 'help':
-        help_text = """
-    ***Help Section :***
-    
-***/waifu - to guess character (only works in group)***
-***/fav - add your fav***
-***/trade - to trade character***
-***/gift - give any character from***
-***/harem - to see your harem***
-***/top - to see top users***
-***/changetime - change character appear time***
-    """ 
-        help_keyboard = [[InlineKeyboardButton("⤂ʙᴀᴄᴋ", callback_data='back')]]
-        reply_markup = InlineKeyboardMarkup(help_keyboard)
-
-        await context.bot.edit_message_caption(chat_id=update.effective_chat.id, message_id=query.message.message_id, caption=help_text, reply_markup=reply_markup, parse_mode='markdown')
-
-application.add_handler(CallbackQueryHandler(button, pattern='^help$', block=False))
-start_handler = CommandHandler('start', start, block=False)
-application.add_handler(start_handler)
+    # ✅ Group Chat Response (Simple Message)
+    else:
+        await update.message.reply_text(
+            f"🍃 ɢʀᴇᴇᴛɪɴɢs, **{first_name}**! 🎀\n"
+            "I'm ˹ᴡᴀɪғᴜ ɢꝛᴀʙʙᴇʀ ʙᴏᴛ˼ 🫧, ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ!\n"
+            "Use `/waifu` to guess a character and `/help` for commands.",
+            parse_mode="markdown"
+        )
