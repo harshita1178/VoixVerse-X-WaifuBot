@@ -5,10 +5,10 @@ class Development:
     # Define all the required configurations here    
     api_id = 29327559   
     api_hash = "bb5a8d32882b15f6d1e6302da78a31bc"    
-    TOKEN = "7847974658:AAFecIEmjt-rq5xEaRSersBUSWwjIm3Gg5w"  # Replace with your actual bot token    
+    TOKEN = "7714177203:AAEy6JNUIXdmerm0NStf2RDAG7MiPHn8Y0M"  # Replace with your actual bot token    
     GROUP_ID = -1002236898779    
     CHARA_CHANNEL_ID = -1002692955321    
-    mongo_url = "mongodb+srv://MIKASAXEREN1009:MIKASAXEREN1009@erenxmikasa.daxa187.mongodb.net/?retryWrites=true&w=majority&appName=erenxmikasa"
+    mongo_url = "mongodb+srv://BesicWaifubot:TGDARK11798@cluster0.rg9k8ag.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     PHOTO_URL = [    
         "https://telegra.ph/file/c74151f4c2b56a107a24b.jpg",    
         "https://telegra.ph/file/6a81a91aa4a660a73194b.jpg"    
@@ -16,7 +16,7 @@ class Development:
     SUPPORT_CHAT = "Otaku_Squade_Alliance"    
     UPDATE_CHAT = "Waifu_Chan_Update"    
     BOT_USERNAME = "Waifu_Chan_Robot"    
-    OWNER_ID = "7044622285"    
+    OWNER_ID = "8156600797"    
     sudo_users = ["7044622285", "98765444", "7756901810"]    
     JOINLOGS = -1002236898779    
     LEAVELOGS = -1002236898779    
