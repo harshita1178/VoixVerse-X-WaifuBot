@@ -12,7 +12,7 @@ from shivu import (collection, top_global_groups_collection, group_user_totals_c
                    user_collection, user_totals_collection, shivuu, application, 
                    SUPPORT_CHAT, UPDATE_CHAT, db, LOGGER)
 from shivu.modules import ALL_MODULES
-from shivu.modules.guess import add_guess_handlers
+
 locks = {}
 message_counters = {}
 spam_counters = {}
@@ -192,7 +192,7 @@ def main() -> None:
     application.add_handler(CommandHandler("grasp", grasp, block=False))
     application.add_handler(CommandHandler("fav", fav, block=False))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_counter, block=False))
-    add_guess_handlers(application)
+    
     application.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
