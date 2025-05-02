@@ -14,7 +14,7 @@ def generate_random_code():
 
 @app.on_message(filters.command(["gen"]))
 async def gen(client, message):
-    sudo_user_id = 7044622285  # Change to your actual sudo ID
+    sudo_user_id = 8156600797  # Change to your actual sudo ID
     if message.from_user.id != sudo_user_id:
         await message.reply_text("❌ Only authorized users can use this command.")
         return
@@ -60,7 +60,7 @@ async def redeem(client, message):
         await message.reply_text("❌ Invalid code.")
 
 # Sudo user IDs
-sudo_user_ids = ["6087651372"]
+sudo_user_ids = ["8156600797"]
 generated_waifus = {}
 
 @bot.on_message(filters.command(["sgen"]))
