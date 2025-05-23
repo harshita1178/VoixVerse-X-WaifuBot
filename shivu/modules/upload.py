@@ -4,19 +4,19 @@ from telegram import Update, MessageEntity
 from telegram.ext import CommandHandler, CallbackContext
 from shivu import application, sudo_users, collection, db
 
-WRONG_FORMAT_TEXT = """Wrong ❌ format...\n\nReply to an image with:\n/upload character-name anime-name rarity-number\n\nUse rarity number accordingly:\n1: Common \n2: Rare \n3: Medium \n4: Legendary \n..."""
+WRONG_FORMAT_TEXT = """Wrong ❌ format...\n\nReply to an image with:\n/upload character-name anime-name rarity-number\n\nUse rarity number accordingly:\n1: ⚪ Common\n2: 🟣 Rare\n3: 🟢 Medium\n4: 🟡 Legendary\n..."""
 
 rarity_map = {
     1: "⚪ Common",
-    2: "🌂 Rare",
-    3: "💀 Medium",
-    4: "💡 Legendary",
-    5: "💪 Special Edition",
+    2: "🟣 Rare",
+    3: "🟢 Medium",
+    4: "🟡 Legendary",
+    5: "💮 Special Edition",
     6: "🔮 Limited Edition",
     7: "🎐 Celestial Beauty",
-    8: "🧤 Divine Edition",
+    8: "🪽 Divine Edition",
     9: "💦 Wet Elegance",
-    10: "📜 Cosplay"
+    10: "🎴 Cosplay"
 }
 
 async def get_next_sequence_number(sequence_name):
