@@ -105,7 +105,7 @@ async def start(update: Update, context: CallbackContext) -> None:
             print(f"Error: {e}")
 
 # Bot Setup
-TOKEN = "your_telegram_bot_token"
+TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"
 application = ApplicationBuilder().token(TOKEN).build()
 application.add_handler(CommandHandler("start", start))
 
