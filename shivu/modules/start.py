@@ -16,7 +16,18 @@ collection = db["users"]
 GROUP_ID = -1001234567890  # Apna Telegram group ID daalo
 SUPPORT_CHAT = "YourSupportChat"
 UPDATE_CHAT = "YourUpdateChat"
-PHOTO_URL = ["https://your_image_link.com/image.jpg"]  # List of photo URLs
+
+DM_PHOTO_URLS = [
+    "https://files.catbox.moe/va3999.jpg",
+    "https://files.catbox.moe/0n5o2x.jpg",
+    "https://files.catbox.moe/sv4364.jpg"
+]
+
+GC_PHOTO_URLS = [
+    "https://files.catbox.moe/6ymnck.jpg",
+    "https://files.catbox.moe/nqe4j8.jpg",
+    "https://files.catbox.moe/sohjvo.jpg"
+]
 
 # Bot start hone ka time store karna
 BOT_START_TIME = time.time()
@@ -66,7 +77,7 @@ async def start(update: Update, context: CallbackContext) -> None:
             [InlineKeyboardButton("≎ ᴄʀᴇᴅɪᴛ ≎", url=f'https://t.me/{UPDATE_CHAT}')],
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        photo_url = random.choice(PHOTO_URL)
+        photo_url = random.choice(DM_PHOTO_URLS)
 
         try:
             await context.bot.send_photo(
@@ -80,12 +91,18 @@ async def start(update: Update, context: CallbackContext) -> None:
             print(f"Error: {e}")
 
     else:
-        await update.message.reply_text(
-            f"🍃 ɢʀᴇᴇᴛɪɴɢs, **{first_name}**! 🎀\n"
-            "I'm ˹ᴡᴀɪғᴜ ɢꝛᴀʙʙᴇʀ ʙᴏᴛ˼ 🫧, ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ!\n"
-            "Use `/waifu` to guess a character and `/help` for commands.",
-            parse_mode="markdown"
-        )
+        photo_url = random.choice(GC_PHOTO_URLS)
+        try:
+            await context.bot.send_photo(
+                chat_id=update.effective_chat.id,
+                photo=photo_url,
+                caption=f"🍃 ɢʀᴇᴇᴛɪɴɢs, **{first_name}**! 🎀\n"
+                        "I'm ˹ᴡᴀɪғᴜ ɢꝛᴀʙʙᴇʀ ʙᴏᴛ˼ 🫧, ɴɪᴄᴇ ᴛᴏ ᴍᴇᴇᴛ ʏᴏᴜ!\n"
+                        "Use `/waifu` to guess a character and `/help` for commands.",
+                parse_mode="markdown"
+            )
+        except Exception as e:
+            print(f"Error: {e}")
 
 # Bot Setup
 TOKEN = "your_telegram_bot_token"
