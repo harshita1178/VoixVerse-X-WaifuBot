@@ -49,9 +49,20 @@ Just one click...
 [ + ] *Add Me To Your Group*  
 Let the hunt begin!
 """
-        await update.message.reply_animation(animation=gif, caption=caption, reply_markup=InlineKeyboardMarkup(BUTTONS), parse_mode='Markdown')
+        await update.message.reply_animation(
+            animation=gif,
+            caption=caption,
+            reply_markup=InlineKeyboardMarkup(BUTTONS),
+            parse_mode='Markdown'
+        )
     else:
-        await update.message.reply_text("🎴Alive!?... Connect to me in PM for more information.")
+        gif = random.choice(GIF_GC)
+        caption = "🎴Alive!?... Connect to me in PM for more information."
+        await context.bot.send_animation(
+            chat_id=update.effective_chat.id,
+            animation=gif,
+            caption=caption
+        )
 
 # HELP Callback
 async def help_callback(update: Update, context: CallbackContext):
@@ -69,7 +80,11 @@ async def help_callback(update: Update, context: CallbackContext):
     )
 
     keyboard = [[InlineKeyboardButton("BACK", callback_data="back_start")]]
-    await query.edit_message_caption(caption=text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='Markdown')
+    await query.edit_message_caption(
+        caption=text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode='Markdown'
+    )
 
 # BACK to START message
 async def back_to_start(update: Update, context: CallbackContext):
@@ -97,9 +112,13 @@ Just one click...
 [ + ] *Add Me To Your Group*  
 Let the hunt begin!
 """
-    await query.edit_message_caption(caption=caption, reply_markup=InlineKeyboardMarkup(BUTTONS), parse_mode='Markdown')
+    await query.edit_message_caption(
+        caption=caption,
+        reply_markup=InlineKeyboardMarkup(BUTTONS),
+        parse_mode='Markdown'
+    )
 
-# Register
+# Register handlers
 application.add_handler(CommandHandler("start", start, block=False))
 application.add_handler(CallbackQueryHandler(help_callback, pattern="help_msg"))
 application.add_handler(CallbackQueryHandler(back_to_start, pattern="back_start"))
