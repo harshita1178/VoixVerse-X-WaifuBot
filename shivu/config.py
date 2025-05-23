@@ -3,11 +3,11 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 
 class Development:    
     # Define all the required configurations here    
-    api_id = 29327559   
-    api_hash = "bb5a8d32882b15f6d1e6302da78a31bc"    
-    TOKEN = "7714177203:AAEy6JNUIXdmerm0NStf2RDAG7MiPHn8Y0M"  # Replace with your actual bot token    
+    api_id = 22099263
+    api_hash = "12efef2ba448d268459dc136427d1ba0"    
+    TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"  # Replace with your actual bot token    
     GROUP_ID = -1002236898779    
-    CHARA_CHANNEL_ID = -1002692955321    
+    CHARA_CHANNEL_ID = -1002640929847
     mongo_url = "mongodb+srv://BesicWaifubot:TGDARK11798@cluster0.rg9k8ag.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     PHOTO_URL = [    
         "https://telegra.ph/file/c74151f4c2b56a107a24b.jpg",    
