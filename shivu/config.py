@@ -17,7 +17,7 @@ class Development:
     UPDATE_CHAT = "Waifu_Chan_Update"    
     BOT_USERNAME = "Waifu_Chan_Robot"    
     OWNER_ID = "6675050163"    
-    sudo_users = ["7044622285", "98765444", "7756901810"]    
+    sudo_users = ["6675050163", "98765444", "7756901810"]    
     JOINLOGS = -1002236898779    
     LEAVELOGS = -1002236898779    
     
