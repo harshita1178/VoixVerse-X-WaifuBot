@@ -2,7 +2,8 @@ from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.constants import ChatType
 
-from shivu import application, top_global_groups_collection, user_collection, channel_collection # Assuming you have a channel_collection now
+# Sirf woh collections import karo jo tumhe chahiye (groups aur users)
+from shivu import application, top_global_groups_collection, user_collection 
 
 async def broadcast(update: Update, context: CallbackContext) -> None:
     OWNER_ID = 6675050163
@@ -17,27 +18,32 @@ async def broadcast(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text("Please reply to a message to broadcast.")
         return
 
-    # Fetch all chats, users, and channels
+    # Sirf groups aur users ki IDs fetch karo
     all_groups = await top_global_groups_collection.distinct("group_id")
     all_users = await user_collection.distinct("id")
-    all_channels = await channel_collection.distinct("channel_id") # Assuming 'channel_id' is the field
 
-    # Combine all unique chat IDs (groups, users, channels)
-    all_recipients = list(set(all_groups + all_users + all_channels))
+    # Groups aur users ki unique IDs ko combine karo
+    all_recipients = list(set(all_groups + all_users))
 
     failed_sends = 0
+    successful_sends = 0
 
     for chat_id in all_recipients:
         try:
-            # Forward the message to each recipient
+            # Message ko har recipient ko forward karo
             await context.bot.forward_message(chat_id=chat_id,
                                               from_chat_id=message_to_broadcast.chat_id,
                                               message_id=message_to_broadcast.message_id)
+            successful_sends += 1
         except Exception as e:
             print(f"Failed to send message to {chat_id}: {e}")
             failed_sends += 1
 
-    await update.message.reply_text(f"I'VE COMPLETED MY MISSION ☄️\nFailed to send to {failed_sends} chats/users/channels.")
+    await update.message.reply_text(
+        f"I'VE COMPLETED MY MISSION ☄️\n"
+        f"Successfully sent to {successful_sends} chats/users.\n"
+        f"Failed to send to {failed_sends} chats/users."
+    )
 
-# Add the command handler
+# Command handler add karo
 application.add_handler(CommandHandler("broadcast", broadcast, block=False))
