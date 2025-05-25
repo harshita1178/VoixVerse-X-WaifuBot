@@ -3,28 +3,31 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
 from shivu import application
 import random
 
-# GIF Lists
+# GIF Lists (Updated with original 3 for GIF_PM)
 GIF_PM = [
-    "https://media0.giphy.com/media/MugllcR6Gq8Y8/giphy.gif?cid=6c09b952hnnz2h6zxjjlqtazycplp2b7zy9u7elexn8ebu2a&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media2.giphy.com/media/sRKWXFDcXMC1W/giphy.gif?cid=6c09b952bxbkr207gwstxo2m7sla8sbswx1xtbg6o3syr2jl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media2.giphy.com/media/rYDwgBF6osqoE/giphy.gif?cid=6c09b952xzf7yoeu8djcad5sx6g7f5rkkv13uejq110eh929&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media0.giphy.com/media/g9rtYY1BKdaQE/giphy.gif?cid=6c09b952od1gfvhno4lvfomijurmv0cql15z4jyk19oge11l&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media0.giphy.com/media/KTCsHtu8pEZ32/giphy.gif?cid=6c09b952qdwbbvgudgwnqhi4cv4ce5le4gnnvcdt6mbv50pq&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media1.giphy.com/media/Me2aqz5T2AhbO/giphy.gif?cid=6c09b952s5mia9aa06ur9jy0qcl444hqpqptf0gkc5hfmg4t&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media1.giphy.com/media/QYPickEOksXNm/giphy.gif?cid=6c09b952zod6e1kwvcayr1wjdyljq74qrl1egfx2go5liflg&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
+    "https://media0.giphy.com/media/BfevCgt1YxDTW/giphy.gif",  # Original 1
+    "https://media4.giphy.com/media/6sv3Z8wXzyEzC/giphy.gif",  # Original 2
+    "https://media4.giphy.com/media/5D8fDjKyQfuZW/giphy.gif",  # Original 3
+    "https://media0.giphy.com/media/MugllcR6Gq8Y8/giphy.gif",
+    "https://media2.giphy.com/media/sRKWXFDcXMC1W/giphy.gif",
+    "https://media2.giphy.com/media/rYDwgBF6osqoE/giphy.gif",
+    "https://media0.giphy.com/media/g9rtYY1BKdaQE/giphy.gif",
+    "https://media0.giphy.com/media/KTCsHtu8pEZ32/giphy.gif",
+    "https://media1.giphy.com/media/Me2aqz5T2AhbO/giphy.gif",
+    "https://media1.giphy.com/media/QYPickEOksXNm/giphy.gif"
 ]
 
 GIF_GC = [
-    "https://media4.giphy.com/media/LUnjrcDnwdbi/giphy.gif?cid=6c09b952708v30w4q92kz6vn5bv654fxdeh5rrm743gpgmnp&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media1.giphy.com/media/uemCr0wASMIsE/giphy.gif?cid=6c09b952q4a21nisetece1golfk230e3ia94o5j1f8jjtd6p&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media2.giphy.com/media/RQjo6hWLt0PpS/giphy.gif?cid=6c09b952dfbmovsvipqzrxuxd3h5gtxw8fo9zv4vjrilg4kv&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media4.giphy.com/media/Hb8VDb6VygJQQ/giphy.gif?cid=6c09b952vde7sxx24bq3vnpuw6o4jt28bjc5pqfur3j8p225&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media0.giphy.com/media/Q3IgmxMZI3r4k/giphy.gif?cid=6c09b952sde09wxukbdk3t1a7veqzsxolquhwif41rgwh1wy&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media2.giphy.com/media/CWOkM9jcoVnlm/giphy.gif?cid=6c09b9525u5210ywpqjggwu4tpnsujw6892jxbw1ty6ipx3j&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media0.giphy.com/media/AGaEzUZ5rPGrm/giphy.gif?cid=6c09b999eky8wn6yupknspt9uozs2b3ezfw00d3mht8lgfe6&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media3.giphy.com/media/HaOyeb1aQLlGU/giphy.gif?cid=6c09b952hgh2pb3l7h3lfdkdsl7yzg4csvpaxgzitu4wxspu&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media4.giphy.com/media/3ohc19U9adbyp0Kc9O/giphy.gif?cid=6c09b952tcucsqcri72v1s7olhdesn60ydp9ivm5mwgomvr3&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
-    "https://media1.giphy.com/media/xULW8JfaTiSY0jemc0/giphy.gif?cid=6c09b952x21w8em7pg1noq5ju62s7ictjkne8cp4g8sdgyj7&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
+    "https://media4.giphy.com/media/LUnjrcDnwdbi/giphy.gif",
+    "https://media1.giphy.com/media/uemCr0wASMIsE/giphy.gif",
+    "https://media2.giphy.com/media/RQjo6hWLt0PpS/giphy.gif",
+    "https://media4.giphy.com/media/Hb8VDb6VygJQQ/giphy.gif",
+    "https://media0.giphy.com/media/Q3IgmxMZI3r4k/giphy.gif",
+    "https://media2.giphy.com/media/CWOkM9jcoVnlm/giphy.gif",
+    "https://media0.giphy.com/media/AGaEzUZ5rPGrm/giphy.gif",
+    "https://media3.giphy.com/media/HaOyeb1aQLlGU/giphy.gif",
+    "https://media4.giphy.com/media/3ohc19U9adbyp0Kc9O/giphy.gif",
+    "https://media1.giphy.com/media/xULW8JfaTiSY0jemc0/giphy.gif"
 ]
 
 BUTTONS = [
