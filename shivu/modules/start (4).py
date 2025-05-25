@@ -2,6 +2,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
 from shivu import application
 import random
+import asyncio # New import for delays
 
 # GIF Lists (Updated with original 3 for GIF_PM)
 GIF_PM = [
@@ -38,6 +39,9 @@ BUTTONS = [
     [InlineKeyboardButton("SOURCE", url="https://github.com/MyNameIsShekhar/WAIFU-HUSBANDO-CATCHER")]
 ]
 
+# List of emojis for the animation
+EMOJIS_GC_ANIMATION = ['🍷', '☄️', '❄️', '👾', '💯', '🎊', '🌀', '🫧', '☔', '🪽']
+
 # /start command
 async def start(update: Update, context: CallbackContext):
     if update.effective_chat.type == "private":
@@ -62,12 +66,42 @@ The hunt begins.
         )
     else:
         gif = random.choice(GIF_GC)
-        caption = "🎴Alive!?... Connect to me in PM for more information."
-        await context.bot.send_animation(
+        final_caption = "👁️ *I observe.* For deeper truths, and to claim what is rightfully yours, approach me in a private message." # You can change this back to your preferred final message.
+
+        # First, send the GIF with an initial empty caption or just the first emoji
+        # It's better to send a minimal caption first, then edit it.
+        # Or, just send the GIF and immediately start editing the caption.
+        sent_message = await context.bot.send_animation(
             chat_id=update.effective_chat.id,
             animation=gif,
-            caption=caption
+            caption=EMOJIS_GC_ANIMATION[0], # Start with the first emoji
+            # No reply_markup here, as it's for GC and will be added later if needed
         )
+
+        # Iterate through emojis to create the animation effect
+        for emoji in EMOJIS_GC_ANIMATION:
+            try:
+                await context.bot.edit_message_caption(
+                    chat_id=update.effective_chat.id,
+                    message_id=sent_message.message_id,
+                    caption=emoji,
+                )
+                await asyncio.sleep(0.3) # Adjust delay as needed for desired speed
+            except Exception as e:
+                # Handle cases where message might be too old to edit or other errors
+                print(f"Error editing message: {e}")
+                break # Stop the loop if editing fails
+
+        # After the emoji animation, set the final caption
+        await context.bot.edit_message_caption(
+            chat_id=update.effective_chat.id,
+            message_id=sent_message.message_id,
+            animation=gif, # Re-include animation if it got lost in edit (though usually it doesn't)
+            caption=final_caption,
+            # If you want buttons in GC as well, uncomment and use them:
+            # reply_markup=InlineKeyboardMarkup(BUTTONS)
+        )
+
 
 # HELP Callback
 async def help_callback(update: Update, context: CallbackContext):
