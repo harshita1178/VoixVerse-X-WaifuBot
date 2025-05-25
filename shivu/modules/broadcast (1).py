@@ -8,9 +8,9 @@ try:
 except ImportError:
     TelegramError = Exception  # fallback
 
-OWNER_ID = 8156600797
-GROUP_ID = -1002439979524
-CHANNEL_ID = -1002646820042
+OWNER_ID = 6675050163
+GROUP_ID = -1002668191611
+CHANNEL_ID = -1002109265407
 
 DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me!"
 REPLY_MSG = "🍃Reply to a message to broadcast it."
