@@ -66,40 +66,38 @@ The hunt begins.
         )
     else:
         gif = random.choice(GIF_GC)
-        final_caption = "👁️ *I observe.* For deeper truths, and to claim what is rightfully yours, approach me in a private message." # You can change this back to your preferred final message.
+        # Choose the final caption for GC
+        final_gc_caption = "👁️ *I observe.* For deeper truths, and to claim what is rightfully yours, approach me in a private message." 
 
-        # First, send the GIF with an initial empty caption or just the first emoji
-        # It's better to send a minimal caption first, then edit it.
-        # Or, just send the GIF and immediately start editing the caption.
+        # Step 1: Send the GIF with an empty/initial caption
         sent_message = await context.bot.send_animation(
             chat_id=update.effective_chat.id,
             animation=gif,
-            caption=EMOJIS_GC_ANIMATION[0], # Start with the first emoji
-            # No reply_markup here, as it's for GC and will be added later if needed
+            caption="", # Start with an empty caption or just a dot to initiate the message
         )
 
-        # Iterate through emojis to create the animation effect
+        # Step 2: Perform the emoji animation by editing the caption
         for emoji in EMOJIS_GC_ANIMATION:
             try:
                 await context.bot.edit_message_caption(
                     chat_id=update.effective_chat.id,
                     message_id=sent_message.message_id,
-                    caption=emoji,
+                    caption=emoji, # Only show the emoji during animation
                 )
-                await asyncio.sleep(0.3) # Adjust delay as needed for desired speed
+                await asyncio.sleep(0.3) # Adjust delay as needed
             except Exception as e:
-                # Handle cases where message might be too old to edit or other errors
-                print(f"Error editing message: {e}")
-                break # Stop the loop if editing fails
+                print(f"Error during emoji animation: {e}")
+                break # Stop if editing fails
 
-        # After the emoji animation, set the final caption
+        # Step 3: Edit the message one last time to include the final caption and GIF (if necessary to re-send GIF)
+        # Note: edit_message_caption usually retains the media, but explicit is safer.
         await context.bot.edit_message_caption(
             chat_id=update.effective_chat.id,
             message_id=sent_message.message_id,
-            animation=gif, # Re-include animation if it got lost in edit (though usually it doesn't)
-            caption=final_caption,
-            # If you want buttons in GC as well, uncomment and use them:
-            # reply_markup=InlineKeyboardMarkup(BUTTONS)
+            caption=final_gc_caption,
+            animation=gif, # Re-specify the animation to ensure it remains if Telegram API quirks
+            # You might want to add buttons here if GC also needs buttons with final message
+            # For example: reply_markup=InlineKeyboardMarkup(BUTTONS) if required for GC
         )
 
 
@@ -111,7 +109,7 @@ async def help_callback(update: Update, context: CallbackContext):
     text = (
         "Yo loser,\n\n"
         "I ain't your average Husbando bot, alright?\n"
-        "I drop the Over Powered multiverse characters every 100 messages — and if you're slow, someone else snatches your Husbando. Cry later.\n\n"
+        "I drop the Over Powered multiverse characters every 100 messages — and if you're slow, someone_else snatches your Husbando. Cry later.\n\n"
         "Wanna build a legacy? Use /grasp fast, flex with /harem, dominate the Husbando world.\n\n"
         "This ain't no kiddie game. This is your Harem. Your pride. Your obsession.\n\n"
         "So add me to your damn group and let the madness begin.\n"
