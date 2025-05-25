@@ -29,12 +29,11 @@ async def start(update: Update, context: CallbackContext):
     if update.effective_chat.type == "private":
         gif = random.choice(GIF_PM)
         caption = """
-💀 *The Shadow Rises.* 💀
-
+🍷 *The Shadow Rises.* ☄️
 Reincarnated by Dogesh Bhai. My professional directive: Claim souls.
 
 — Random anime character drops every 100 messages.
-— Use /guess to seize them.
+— Use /grasp to seize them.
 — Track your dominance with /harem, /top.
 
 This is not a game. It's a conquest.
@@ -65,7 +64,7 @@ async def help_callback(update: Update, context: CallbackContext):
         "Yo loser,\n\n"
         "I ain't your average Husbando bot, alright?\n"
         "I drop the Over Powered multiverse characters every 100 messages — and if you're slow, someone else snatches your Husbando. Cry later.\n\n"
-        "Wanna build a legacy? Use /guess fast, flex with /harem, dominate the Husbando world.\n\n"
+        "Wanna build a legacy? Use /grasp fast, flex with /harem, dominate the Husbando world.\n\n"
         "This ain't no kiddie game. This is your Harem. Your pride. Your obsession.\n\n"
         "So add me to your damn group and let the madness begin.\n"
         "You in, or still simping For These Korean 7 Gays?"
@@ -84,21 +83,16 @@ async def back_to_start(update: Update, context: CallbackContext):
     await query.answer()
 
     caption = """
-✨ *Summoning Jutsu Activated!* ✨  
-I’m not just a bot...  
-*I’m the gatekeeper to your legendary Harem.*
+🍷 *The Shadow Rises.* ☄️
+Reincarnated by Dogesh Bhai. My professional directive: Claim souls.
 
-*Here’s what I do:* — After every *100 messages* in your group  
-— I drop a *random anime character* — First to use */guess* wins them  
-— Build your collection with */harem*, */top*, and more
+— Random anime character drops every 100 messages.
+— Use /grasp to seize them.
+— Track your dominance with /harem, /top.
 
-*This isn’t just a game —* *This is your rise to becoming the Harem King/Queen.*
-
-So what now?  
-Just one click...  
-*Unleash the madness. Rule the waifu world.*
-
-[ + ] *Add Me To Your Group* Let the hunt begin!
+This is not a game. It's a conquest.
+[ + ] *Bind Me To Your Group.*
+The hunt begins.
 """
     await query.edit_message_caption(
         caption=caption,
