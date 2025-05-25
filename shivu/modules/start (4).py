@@ -112,17 +112,23 @@ async def help_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     await query.answer()
 
+    # New Help message for GC, keeping the GIF in place
     text = (
-        "Yo loser,\n\n"
-        "I ain't your average Husbando bot, alright?\n"
-        "I drop the Over Powered multiverse characters every 100 messages — and if you're slow, someone_else snatches your Husbando. Cry later.\n\n"
-        "Wanna build a legacy? Use /grasp fast, flex with /harem, dominate the Husbando world.\n\n"
-        "This ain't no kiddie game. This is your Harem. Your pride. Your obsession.\n\n"
-        "So add me to your damn group and let the madness begin.\n"
-        "You in, or still simping For These Korean 7 Gays?"
+        "🌌 *The Grimoire of Souls.* 🌌\n\n"
+        "This domain is not for the faint of heart.\n"
+        "I am here to bind the strongest characters from across the multiverse to your command.\n\n"
+        "*My Directives:*\n"
+        "— Every 100 messages, a new soul manifests.\n"
+        "— Employ /grasp to claim it before others do.\n"
+        "— Monitor your growing dominion: /harem, /top.\n"
+        "— Use /collection to see all available entities.\n\n"
+        "Remember, every unclaimed soul is a lost opportunity.\n"
+        "Your reign awaits. Now, proceed."
     )
 
     keyboard = [[InlineKeyboardButton("BACK", callback_data="back_start")]]
+    
+    # Use edit_message_caption to change text while keeping the GIF
     await query.edit_message_caption(
         caption=text,
         reply_markup=InlineKeyboardMarkup(keyboard),
