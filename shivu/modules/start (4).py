@@ -2,7 +2,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
 from shivu import application
 import random
-import asyncio # New import for delays
+import asyncio # For delays
 
 # GIF Lists (Updated with original 3 for GIF_PM)
 GIF_PM = [
@@ -64,40 +64,47 @@ The hunt begins.
             reply_markup=InlineKeyboardMarkup(BUTTONS),
             parse_mode='Markdown'
         )
-    else:
+    else: # This is the Group Chat (GC) logic
         gif = random.choice(GIF_GC)
-        # Choose the final caption for GC
         final_gc_caption = "👁️ *I observe.* For deeper truths, and to claim what is rightfully yours, approach me in a private message." 
 
-        # Step 1: Send the GIF with an empty/initial caption
-        sent_message = await context.bot.send_animation(
+        # Step 1: Send a text message to initiate the animation. No GIF yet.
+        sent_message = await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            animation=gif,
-            caption="", # Start with an empty caption or just a dot to initiate the message
+            text=EMOJIS_GC_ANIMATION[0], # Start with the first emoji
         )
 
-        # Step 2: Perform the emoji animation by editing the caption
-        for emoji in EMOJIS_GC_ANIMATION:
-            try:
-                await context.bot.edit_message_caption(
-                    chat_id=update.effective_chat.id,
-                    message_id=sent_message.message_id,
-                    caption=emoji, # Only show the emoji during animation
-                )
-                await asyncio.sleep(0.3) # Adjust delay as needed
-            except Exception as e:
-                print(f"Error during emoji animation: {e}")
-                break # Stop if editing fails
+        # Step 2: Perform the emoji animation by editing the *text* of the message
+        for i, emoji in enumerate(EMOJIS_GC_ANIMATION):
+            if i > 0: # Skip the first emoji as it's already sent
+                try:
+                    await context.bot.edit_message_text(
+                        chat_id=update.effective_chat.id,
+                        message_id=sent_message.message_id,
+                        text=emoji,
+                    )
+                    await asyncio.sleep(0.3) # Adjust delay as needed
+                except Exception as e:
+                    print(f"Error during emoji animation: {e}")
+                    break # Stop if editing fails
 
-        # Step 3: Edit the message one last time to include the final caption and GIF (if necessary to re-send GIF)
-        # Note: edit_message_caption usually retains the media, but explicit is safer.
-        await context.bot.edit_message_caption(
+        # Step 3: Delete the animated emoji message
+        try:
+            await context.bot.delete_message(
+                chat_id=update.effective_chat.id,
+                message_id=sent_message.message_id
+            )
+        except Exception as e:
+            print(f"Error deleting temporary emoji message: {e}")
+
+        # Step 4: Finally, send the GIF with the complete caption (text + GIF together)
+        await context.bot.send_animation(
             chat_id=update.effective_chat.id,
-            message_id=sent_message.message_id,
+            animation=gif,
             caption=final_gc_caption,
-            animation=gif, # Re-specify the animation to ensure it remains if Telegram API quirks
-            # You might want to add buttons here if GC also needs buttons with final message
-            # For example: reply_markup=InlineKeyboardMarkup(BUTTONS) if required for GC
+            # If you want buttons in GC as well, uncomment and use them:
+            # reply_markup=InlineKeyboardMarkup(BUTTONS),
+            parse_mode='Markdown' # Use Markdown for the final caption if needed
         )
 
 
