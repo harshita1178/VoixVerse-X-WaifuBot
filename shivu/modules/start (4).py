@@ -102,8 +102,7 @@ The hunt begins.
             chat_id=update.effective_chat.id,
             animation=gif,
             caption=final_gc_caption,
-            # If you want buttons in GC as well, uncomment and use them:
-            # reply_markup=InlineKeyboardMarkup(BUTTONS),
+            reply_markup=InlineKeyboardMarkup(BUTTONS), # Added buttons here for GC
             parse_mode='Markdown' # Use Markdown for the final caption if needed
         )
 
