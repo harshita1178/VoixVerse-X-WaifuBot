@@ -29,25 +29,17 @@ async def start(update: Update, context: CallbackContext):
     if update.effective_chat.type == "private":
         gif = random.choice(GIF_PM)
         caption = """
-✨ *Summoning Jutsu Activated!* ✨  
-I’m not just a bot...  
-*I’m the gatekeeper to your legendary Harem.*
+💀 *The Shadow Rises.* 💀
 
-*Here’s what I do:*  
-— After every *100 messages* in your group  
-— I drop a *random anime character*  
-— First to use */guess* wins them  
-— Build your collection with */harem*, */top*, and more
+Reincarnated by Dogesh Bhai. My professional directive: Claim souls.
 
-*This isn’t just a game —*  
-*This is your rise to becoming the Harem King/Queen.*
+— Random anime character drops every 100 messages.
+— Use /guess to seize them.
+— Track your dominance with /harem, /top.
 
-So what now?  
-Just one click...  
-*Unleash the madness. Rule the waifu world.*
-
-[ + ] *Add Me To Your Group*  
-Let the hunt begin!
+This is not a game. It's a conquest.
+[ + ] *Bind Me To Your Group.*
+The hunt begins.
 """
         await update.message.reply_animation(
             animation=gif,
@@ -96,21 +88,17 @@ async def back_to_start(update: Update, context: CallbackContext):
 I’m not just a bot...  
 *I’m the gatekeeper to your legendary Harem.*
 
-*Here’s what I do:*  
-— After every *100 messages* in your group  
-— I drop a *random anime character*  
-— First to use */guess* wins them  
+*Here’s what I do:* — After every *100 messages* in your group  
+— I drop a *random anime character* — First to use */guess* wins them  
 — Build your collection with */harem*, */top*, and more
 
-*This isn’t just a game —*  
-*This is your rise to becoming the Harem King/Queen.*
+*This isn’t just a game —* *This is your rise to becoming the Harem King/Queen.*
 
 So what now?  
 Just one click...  
 *Unleash the madness. Rule the waifu world.*
 
-[ + ] *Add Me To Your Group*  
-Let the hunt begin!
+[ + ] *Add Me To Your Group* Let the hunt begin!
 """
     await query.edit_message_caption(
         caption=caption,
