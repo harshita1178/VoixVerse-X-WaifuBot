@@ -12,7 +12,7 @@ OWNER_ID = 6675050163
 GROUP_ID = -1002668191611
 CHANNEL_ID = -1002109265407
 
-DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me!"
+DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me! BITCH "
 REPLY_MSG = "🍃Reply to a message to broadcast it."
 DONE_MSG = "💫Broadcast sent to all successfully."
 
