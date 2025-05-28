@@ -14,7 +14,7 @@ CHANNEL_ID = -1002109265407
 
 DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me! BITCH "
 REPLY_MSG = "🍃Reply to a message to broadcast it."
-DONE_MSG = "💫Broadcast sent to all successfully."
+DONE_MSG = "🍫Broadcast sent to all successfully."
 
 # Helper function to forward messages with inline buttons
 async def forward_with_buttons(context: CallbackContext, chat_id, msg):
@@ -75,7 +75,7 @@ async def gbroadcast(update: Update, context: CallbackContext):
 
     msg = update.message.reply_to_message
     await forward_with_buttons(context, GROUP_ID, msg)
-    await update.message.reply_text("✅ Sent to group.")
+    await update.message.reply_text("🪽Broadcast sent to all successfully.")
 
 # /cbroadcast command
 async def cbroadcast(update: Update, context: CallbackContext):
@@ -87,7 +87,7 @@ async def cbroadcast(update: Update, context: CallbackContext):
 
     msg = update.message.reply_to_message
     await forward_with_buttons(context, CHANNEL_ID, msg)
-    await update.message.reply_text("✅ Sent to channel.")
+    await update.message.reply_text("☔Broadcast sent to all channel successfully.")
 
 # Register handlers
 application.add_handler(CommandHandler("broadcast", broadcast))
