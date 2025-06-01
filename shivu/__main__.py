@@ -51,8 +51,8 @@ async def message_counter(update: Update, context: CallbackContext) -> None:
                     return
                 else:
                     await update.message.reply_text(
-    f"⚠️ 𝗛𝗲𝘆 {update.effective_user.first_name}, 𝘀𝗹𝗼𝘄 𝗱𝗼𝘄𝗻!\n"
-    "⏳ 𝗠𝘂𝘁𝗲𝗱 𝗳𝗼𝗿 𝟭𝟬 𝗺𝗶𝗻𝘂𝘁𝗲𝘀 𝗳𝗼𝗿 𝗮𝘃𝗼𝗶𝗱𝗶𝗻𝗴 𝘀𝗽𝗮𝗺."
+    f"🌀 OYE SALE {update.effective_user.first_name}, CHUP KAR GANDU!👺\n"
+    "⏳ BHARWA SPAMMER CHAMMAR JAAT KE KIDE TU CHUP KAR 10 MINUTE🪽  ."
                     )
                     warned_users[user_id] = time.time()
                     return
