@@ -13,13 +13,13 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # --- Bot Configuration (YOUR CREDENTIALS ADDED DIRECTLY) ---
 # ** DO NOT SHARE THIS FILE PUBLICLY ON GITHUB IF THESE ARE YOUR REAL CREDENTIALS **
-API_ID = 22099263  # Your Telegram API ID
-API_HASH = "12efef2ba448d268459dc136427d1ba0"  # Your Telegram API Hash
-BOT_TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"  # Your BotFather Bot Token
+API_ID = 22099263  # Your Telegram API ID - Added by user request
+API_HASH = "12efef2ba448d268459dc136427d1ba0"  # Your Telegram API Hash - Added by user request
+BOT_TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"  # Your BotFather Bot Token - Added by user request
 
 # Initialize the Pyrogram Client
 app = Client(
-    "my_font_bot_session",  # Session name for Pyrogram
+    "my_font_bot_session",  # Session name for Pyrogram, can be anything
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
@@ -33,18 +33,20 @@ app = Client(
 def convert_to_unicode_font(text, start_upper, start_lower):
     converted_text = ""
     for char in text:
+        # Check if character is an English alphabet (A-Z or a-z)
         if 'A' <= char <= 'Z':
-            # Check if the target Unicode range for uppercase is valid
+            # Check if the target Unicode range is valid for uppercase
+            # Using 0x1F77F as a general upper bound for Plane 1 unicode chars
             if start_upper and (start_upper + (ord(char) - ord('A'))) <= 0x1F77F:
                 converted_text += chr(start_upper + (ord(char) - ord('A')))
             else:
-                converted_text += char
+                converted_text += char  # Fallback if no specific unicode for uppercase
         elif 'a' <= char <= 'z':
-            # Check if the target Unicode range for lowercase is valid
+            # Check if the target Unicode range is valid for lowercase
             if start_lower and (start_lower + (ord(char) - ord('a'))) <= 0x1F77F:
                 converted_text += chr(start_lower + (ord(char) - ord('a')))
             else:
-                converted_text += char
+                converted_text += char  # Fallback if no specific unicode for lowercase
         else:
             converted_text += char  # Keep non-alphabetic characters as they are
     return converted_text
@@ -125,16 +127,30 @@ async def font_command_handler(client, message):
 # --- Callback Query Handler for Font Selection ---
 @app.on_callback_query(filters.regex(r"^font_"))
 async def font_callback_handler(client, callback_query):
-    # Callback data will be in the format: "font_<font_name>_<original_text>"
+    # callback_query.data will be in the format: "font_<font_name>_<original_text>"
+    print(f"DEBUG: Callback data received: {callback_query.data}") # DEBUG LINE
+
     try:
         data_parts = callback_query.data.split("_", 2) # Splits into ['font', 'FontName', 'YourText']
+        
+        # Basic check to prevent IndexError if data_parts is too short
+        if len(data_parts) < 3:
+            print(f"ERROR: Insufficient data parts in callback_query.data: {callback_query.data}")
+            await callback_query.answer("Callback data incomplete. Please try again.", show_alert=True)
+            return
+
         font_name = data_parts[1]
         original_text = data_parts[2]
+
+        print(f"DEBUG: Extracted font_name: {font_name}")    # DEBUG LINE
+        print(f"DEBUG: Extracted original_text: {original_text}") # DEBUG LINE
 
         if font_name in font_styles:
             formatted_text = font_styles[font_name](original_text)
             
-            # Send a brief notification to the user (appears at the top of the screen)
+            print(f"DEBUG: Formatted text: {formatted_text}") # DEBUG LINE
+
+            # Show a brief notification to the user (appears at the top of the screen)
             await callback_query.answer(f"Text ko {font_name} mein badal diya!", show_alert=False)
             
             # Edit the original message to display the formatted text
@@ -144,9 +160,10 @@ async def font_callback_handler(client, callback_query):
                 parse_mode="Markdown" # Use Markdown to render backticks as monospace/code
             )
         else:
+            print(f"DEBUG: Font name '{font_name}' not found in font_styles dictionary.") # DEBUG LINE
             await callback_query.answer("Invalid font style selected.", show_alert=True)
     except Exception as e:
-        print(f"Error in font_callback_handler: {e}")
+        print(f"ERROR: General error in font_callback_handler for data {callback_query.data}: {e}")
         await callback_query.answer("Kuch error ho gaya. Phir se try karo.", show_alert=True)
 
 # --- Start the Bot ---
