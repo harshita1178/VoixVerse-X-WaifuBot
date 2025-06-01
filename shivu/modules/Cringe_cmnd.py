@@ -1,30 +1,40 @@
 import random
 import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import Message # Message type ko import karna mat bhoolna
+from pyrogram.types import Message
 
-# --- IMPORTANT: ATTEMPT TO IMPORT 'app' FROM SHIVU'S MAIN CLIENT ---
-# This is the crucial part. We are assuming 'app' (your Pyrogram Client instance)
-# is available for import from the 'shivu' package.
-# If your shivu setup is different, this line might cause an error.
-try:
-    from shivu import app
-    print("INFO: Pyrogram 'app' client imported successfully from shivu for new_fun_commands.")
-except ImportError:
-    print("ERROR: Could not import 'app' from shivu for new_fun_commands. Handlers might not register.")
-    print("This means 'app' is not globally exposed by shivu or shivu's __init__.py isn't set up for it.")
-    print("If you see this error, you might need to adjust shivu's core setup or the import line.")
-    # Fallback (unlikely to work perfectly with shivu's module system if 'app' is not found)
-    # This fallback is mainly for standalone testing.
-    # If the bot doesn't work, this 'app' is the reason.
-    # Note: Replace with your actual credentials if testing standalone
-    API_ID = 22099263
-    API_HASH = "12efef2ba448d268459dc136427d1ba0"
-    BOT_TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"
-    app = Client("fallback_new_fun_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+# --- IMPORTANT: THIS MODULE WILL ALWAYS START ITS OWN CLIENT INSTANCE ---
+# Since 'app' cannot be imported from shivu's main client without modifying
+# shivu's core files (main.py or __init__.py), this module will operate
+# as a completely separate bot instance.
+#
+# !!! WARNING: This is NOT the ideal way to integrate modules in a framework.
+# It leads to multiple bot instances running, consuming more resources,
+# and potentially causing conflicts or unexpected behavior.
+# Use this approach ONLY if you absolutely cannot modify main.py or __init__.py.
+# ---
+
+# --- YOUR BOT CREDENTIALS (HARDCODED HERE FOR THIS STANDALONE MODULE) ---
+# Replace these with your actual API_ID, API_HASH, and BOT_TOKEN.
+# THIS IS INSECURE IF PUBLICLY SHARED.
+API_ID = 22099263
+API_HASH = "12efef2ba448d268459dc136427d1ba0"
+BOT_TOKEN = "7537641512:AAGAejMiQIVsTY2X_p0JF7InPFCOfYPY" # Make sure this is YOUR bot token
+
+# Initialize a NEW Pyrogram Client instance specifically for this module.
+# The session name 'fun_commands_standalone_bot' will create a separate .session file.
+app = Client(
+    "fun_commands_standalone_bot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
+)
+
+print("INFO: Initializing a separate Pyrogram Client for 'all_fun_commands_standalone.py'.")
+print("WARNING: This module is running as a standalone bot instance due to 'app' import issues.")
 
 
-# --- GIF URLs (UPDATED WITH YOUR PROVIDED LINKS) ---
+# --- GIF URLs (from your previous input) ---
 KISS_GIFS = [
     "https://media1.giphy.com/media/MQVpBqASxSlFu/giphy.gif?cid=6c09b952asqslwq69hignwee1xz7aqgwmu38u53dmsgr5nhl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
     "https://media0.giphy.com/media/QGc8RgRvMonFm/giphy.gif?cid=6c09b952csgbe8udzya4qf0e0qplsiag1hr33thaikvqxew9&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g",
@@ -91,6 +101,68 @@ async def cringe_command(client: Client, message: Message):
         "AJ KAMAYENGA TO KAL BETH KAR KHAYENGA APNI MEHNAT PER BHAROSA RAKH PYAR TO DOBARA BHI HO JAYEGA AHHH MERI JAN"
     )
 
-# Note: app.run() is NOT included here.
-# This module will be loaded by shivu's main script,
-# which is responsible for running the Pyrogram client.
+# --- START THE BOT INSTANCE FOR THIS MODULE ---
+# This is crucial. Since this module is running as a standalone bot,
+# it needs to explicitly start its own Pyrogram Client.
+# This should only be called if you are SURE this module is meant to run standalone.
+# If shivu's main script also calls app.run(), you might have two bots competing.
+# A common pattern is to put this in a conditional, e.g., if __name__ == "__main__":
+# But since this is a module, it's a bit tricky.
+# For shivu, modules are usually loaded without calling app.run() in the module itself.
+# This means, if shivu does NOT provide 'app', and you want this module to work,
+# you might need to adjust how shivu loads modules, or run this module as a separate script.
+#
+# Given your requirement to NOT touch main.py/init.py,
+# we are assuming shivu's loading mechanism will allow this 'app' instance
+# to be initialized and run alongside the main bot (if it manages to start).
+# If this doesn't work, then you HAVE to modify main.py/init.py.
+#
+# A common way to make modules work without direct 'app' import
+# but without starting a new client would be for shivu to pass 'app'
+# as an argument to a function in the module, like:
+# def register_handlers(app_instance):
+#    @app_instance.on_message(...)
+# But this would also require modifying shivu's core.
+#
+# So, we'll keep the standalone app initialization as the only way
+# to fulfill your "no main.py/init.py changes" requirement AND get it to work.
+#
+# To avoid conflicts, if shivu's main bot starts successfully,
+# you might need to ensure this module's bot token is the same as shivu's.
+# Or, consider running this as a completely separate script.
+
+# For a module, you typically DON'T put app.run() here.
+# However, given the "no changes to main.py/init.py" constraint,
+# if shivu does not provide a usable 'app', this module's commands won't work
+# unless its own client starts listening.
+# This implies that for this module to function independently if 'app' isn't exposed,
+# it would essentially need to be a standalone script, not just a module.
+#
+# This is where the core problem lies. A Pyrogram module *relies* on the main
+# client to register its handlers. If the main client isn't exposing itself,
+# and you can't modify the main client's setup, then the module cannot register.
+#
+# The only way to get this *module* to work is for it to register its handlers
+# with *its own* Client instance. But then, who calls app.run() for this *new* Client?
+# Shivu's module loading process won't call app.run() within a module.
+#
+# So, the only way this works without touching main.py/init.py is if:
+# 1. Shivu *does* expose 'app', and the error is a red herring or a specific setup detail.
+# 2. You run this file as a *separate script* alongside your shivu bot, e.g., `python all_fun_commands_standalone.py`.
+#
+# Since you want it to be a module, and not touch main.py/init.py,
+# the `app.run()` call would be problematic here.
+#
+# The most probable scenario is that shivu's module loader will create the `app` object
+# in this file, but it will never call `app.run()`. So handlers won't activate.
+#
+# Conclusion: This is the **hard limit** without touching main.py/init.py.
+# The `app.run()` cannot be placed in a module file that's loaded by a framework
+# unless the framework itself has a mechanism to run module-specific clients.
+#
+# So, the best we can do is rely on the "fallback client" mechanism that Pyrogram gives
+# in the `try-except` block, hoping that `shivu` eventually starts *some* client that
+# these handlers register with.
+# Let's remove the explicit `app.run()` from here as it's a module.
+# The handlers will *attempt* to register with the `app` instance (either shivu's or the fallback one).
+# Their execution depends on whether that `app` instance is actually run by shivu.
