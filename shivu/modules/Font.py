@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Bot Configuration ---
-API_ID = os.getenv("API_ID")  # Get from my.telegram.org
-API_HASH = os.getenv("API_HASH")  # Get from my.telegram.org
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # Get from @BotFather
+API_ID = os.getenv("22099263")  # Get from my.telegram.org
+API_HASH = os.getenv("12efef2ba448d268459dc136427d1ba0")  # Get from my.telegram.org
+BOT_TOKEN = os.getenv("7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY")  # Get from @BotFather
 
 if not all([API_ID, API_HASH, BOT_TOKEN]):
     print("Error: API_ID, API_HASH, or BOT_TOKEN environment variables are not set.")
