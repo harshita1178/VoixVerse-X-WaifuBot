@@ -68,7 +68,7 @@ AUTO_CHAT_INTERVAL_MIN = 30 # Minimum interval before sending another random mes
 AUTO_CHAT_INTERVAL_MAX = 120 # Maximum interval (seconds)
 
 # Filters for groups and supergroups only
-@app.on_message(filters.group | filters.supergroup)
+@app.on_message(filters.group)
 async def auto_chat_handler(client, message):
     chat_id = message.chat.id
 
