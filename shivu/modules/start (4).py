@@ -83,7 +83,7 @@ The hunt begins.
                         message_id=sent_message.message_id,
                         text=emoji,
                     )
-                    await asyncio.sleep(0.3) # Adjust delay as needed
+                    await asyncio.sleep(0.5) # Delay increased from 0.3 to 0.5 seconds
                 except Exception as e:
                     print(f"Error during emoji animation: {e}")
                     break # Stop if editing fails
