@@ -40,7 +40,7 @@ BUTTONS = [
 ]
 
 # List of emojis for the animation
-EMOJIS_GC_ANIMATION = ['🍷', '❄️', '👾', '☔', '🪽']
+EMOJIS_GC_ANIMATION = ['🎊', '⚡']
 
 # /start command
 async def start(update: Update, context: CallbackContext):
