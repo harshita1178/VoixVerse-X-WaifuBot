@@ -4,7 +4,7 @@ import random
 from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext
 
-from shivu import application, sudo_users # Assuming shivu and sudo_users are correctly imported from your project
+from shivu import application, sudo_users # Make sure shivu and sudo_users are correctly imported from your main project
 
 # Owner ID yahan define kar rahe hain
 OWNER_ID = 6675050163 # MADARA ka actual Telegram User ID yahan daalo
@@ -32,26 +32,29 @@ async def ping(update: Update, context: CallbackContext) -> None:
     # Check if the user is the owner
     if user_id == OWNER_ID:
         start_time = time.time()
-        # Pehle "Yoo Madara What's up?" bhejo
-        await update.message.reply_text("Yoo Madara What's up?")
+        # First, send the initial message for the owner and store its reference
+        message = await update.message.reply_text("Yoo Madara What's up? Processing...")
         
-        # Ab Pong! aur ping time bhejo, aur shayari
-        message = await update.message.reply_text('Pong!☄️')
+        # Calculate elapsed time and then edit the SAME message to show the ping and shayari
         end_time = time.time()
         elapsed_time = round((end_time - start_time) * 1000, 3)
         await message.edit_text(f'Pong! {elapsed_time}ms\n\n**Shayari for you:**\n{random_shayari}')
     
-    # Check if the user is a sudo user (but not the owner, already handled)
+    # Check if the user is a sudo user (but not the owner, as owner is handled first)
     elif str(user_id) in sudo_users:
         start_time = time.time()
+        # Send the initial 'Pong!☄️' message and store its reference
         message = await update.message.reply_text('Pong!☄️')
+        
+        # Calculate elapsed time and then edit the SAME message to show the ping and shayari
         end_time = time.time()
         elapsed_time = round((end_time - start_time) * 1000, 3)
         await message.edit_text(f'Pong! {elapsed_time}ms\n\n**Shayari for you:**\n{random_shayari}')
     
-    # If neither owner nor sudo user
+    # If neither owner nor sudo user, send the restricted message
     else:
         await update.message.reply_text("Seriously Brohh I Am Not Working For You My Master Is Dogesh Bhai 🍷 So Shut Da Fukk off")
         return
 
+# Add the command handler to your application
 application.add_handler(CommandHandler("ping", ping))
