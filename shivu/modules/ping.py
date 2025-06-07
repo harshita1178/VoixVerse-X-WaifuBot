@@ -9,6 +9,9 @@ from shivu import application, sudo_users # Make sure shivu and sudo_users are c
 # Owner ID yahan define kar rahe hain
 OWNER_ID = 6675050163 # MADARA ka actual Telegram User ID yahan daalo
 
+# Image URL
+PING_IMAGE_URL = "https://files.catbox.moe/th21me.jpg"
+
 # List of shayaris
 SHAYARIS = [
     "Me - Hey Miss Would You Like To Dance With Me?\nGirl - I don't dance with a kid\nMe - Sorry I Didn't know you are pregent",
@@ -29,27 +32,28 @@ async def ping(update: Update, context: CallbackContext) -> None:
     # Select a random shayari
     random_shayari = random.choice(SHAYARIS)
 
-    # Check if the user is the owner
-    if user_id == OWNER_ID:
+    # Prepare the caption
+    caption_text = f"**Shayari for you:**\n{random_shayari}\n\n"
+
+    # Check if the user is the owner or a sudo user
+    if user_id == OWNER_ID or str(user_id) in sudo_users:
         start_time = time.time()
-        # First, send the initial message for the owner and store its reference
-        message = await update.message.reply_text("Yoo Madara What's up? Processing...")
         
-        # Calculate elapsed time and then edit the SAME message to show the ping and shayari
+        # Send the photo with the initial caption
+        # We don't send a separate "Yoo Madara" message here, it's combined with the photo caption.
+        message = await update.message.reply_photo(
+            photo=PING_IMAGE_URL,
+            caption=caption_text + "Calculating ping..." # Initial message while calculating
+        )
+        
+        # Calculate elapsed time
         end_time = time.time()
         elapsed_time = round((end_time - start_time) * 1000, 3)
-        await message.edit_text(f'Pong! {elapsed_time}ms\n\n**Shayari for you:**\n{random_shayari}')
-    
-    # Check if the user is a sudo user (but not the owner, as owner is handled first)
-    elif str(user_id) in sudo_users:
-        start_time = time.time()
-        # Send the initial 'Pong!☄️' message and store its reference
-        message = await update.message.reply_text('Pong!☄️')
         
-        # Calculate elapsed time and then edit the SAME message to show the ping and shayari
-        end_time = time.time()
-        elapsed_time = round((end_time - start_time) * 1000, 3)
-        await message.edit_text(f'Pong! {elapsed_time}ms\n\n**Shayari for you:**\n{random_shayari}')
+        # Edit the caption of the SAME photo message to add the ping time
+        await message.edit_caption(
+            caption=caption_text + f'Pong! {elapsed_time}ms'
+        )
     
     # If neither owner nor sudo user, send the restricted message
     else:
