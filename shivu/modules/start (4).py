@@ -1,6 +1,6 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
-from shivu import application
+from shivu import application, logger # Yahan 'logger' ko import kiya hai
 import random
 import asyncio # For delays
 
@@ -164,6 +164,12 @@ EMOJIS_GC_ANIMATION = ['🎊', '⚡']
 
 # /start command
 async def start(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    user_name = update.effective_user.full_name
+    
+    # Logger mein message log karo
+    logger.info(f"User ID: {user_id} - {user_name} - This Bitch is using The Bot")
+
     if update.effective_chat.type == "private":
         gif = random.choice(GIF_PM)
         # Get the corresponding caption for the chosen GIF
