@@ -1,19 +1,30 @@
 import logging  
 import os
+from logging.handlers import RotatingFileHandler # Naya import
 from pyrogram import Client 
 from telegram.ext import Application
 from motor.motor_asyncio import AsyncIOMotorClient
 
+# Create the logs directory if it doesn't exist
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
 logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[
+        # Ab log messages 'logs/bot.log' mein jayenge, aur file rotate hogi
+        RotatingFileHandler("logs/bot.log", maxBytes=5*1024*1024, backupCount=5),
+        logging.StreamHandler() # Console par bhi dikhega
+    ],
     level=logging.INFO,
 )
 
 logging.getLogger("apscheduler").setLevel(logging.ERROR)
 logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger("pyrate_limiter").setLevel(logging.ERROR)
-LOGGER = logging.getLogger(__name__)
+
+# LOGGER ko 'logger' rename kar diya hai, taaki easy to use ho
+logger = logging.getLogger(__name__)
 
 from shivu.config import Development as Config
 
