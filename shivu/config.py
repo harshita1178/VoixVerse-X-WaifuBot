@@ -5,7 +5,7 @@ class Development:
     # Define all the required configurations here    
     api_id = 22099263
     api_hash = "12efef2ba448d268459dc136427d1ba0"    
-    TOKEN = "7537641512:AAGAejMiQIVyTwWTY2X_p0JF7InPFCOfYPY"  # Replace with your actual bot token    
+    TOKEN = "7672481961:AAEEQqnV7JWzjA-RVUchyZKy3beoGiKRyOk"  # Replace with your actual bot token    
     GROUP_ID = -1002236898779    
     CHARA_CHANNEL_ID = -1002640929847
     mongo_url = "mongodb+srv://BesicWaifubot:TGDARK11798@cluster0.rg9k8ag.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
