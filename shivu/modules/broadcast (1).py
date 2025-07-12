@@ -23,7 +23,7 @@ CBROADCAST_SUCCESS_GIF = "https://media0.giphy.com/media/MdLFOyVZtoUPm/giphy.gif
 CBROADCAST_FAILURE_GIF = "https://media1.giphy.com/media/BcSfi7jRHsLV6/giphy.gif?cid=6c09b952ej3ys3kwqy8c5eohwqy1kgwmcm09dyucyrengoa3&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
 
 
-DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me! BITCH "
+DENY_MSG = "🎐I've been summoned by Dogesh Bhai🍷 You can't control me! Sun Of BITCH "
 REPLY_MSG = "🍃Reply to a message to broadcast it."
 DONE_MSG = "🍫Broadcast sent to all successfully." # This will be replaced by GIF messages
 
